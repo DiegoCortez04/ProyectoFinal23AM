@@ -36,5 +36,24 @@ namespace ProyectoFinal23AM.Services
 				throw new Exception("ERROR: " + ex.Message);
 			}
         }
+		public List<Usuario> GetUsuarios()
+		{
+			try
+			{
+				using(var _context = new ApplicationDbContext())
+				{
+					List<Usuario> usuarios = _context.Usuarios.ToList();
+					//List<Usuario> usuarios = new List<Usuario>();
+					//usuarios = _context.Usuarios.ToList();
+					return usuarios;
+
+				}
+			}
+			catch (Exception ex)
+			{
+
+				throw new Exception("ERROR: " + ex.Message);
+			}
+		}
     }
 }

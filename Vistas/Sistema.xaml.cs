@@ -24,6 +24,7 @@ namespace ProyectoFinal23AM.Vistas
         public Sistema()
         {
             InitializeComponent();
+            GetUsersTable();
         }
         UsuarioServices services = new UsuarioServices();
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
@@ -36,6 +37,10 @@ namespace ProyectoFinal23AM.Vistas
             txtNombre.Clear();
             txtUserName.Clear();
             txtPassword.Clear();
+        }
+        public void GetUsersTable()
+        {
+            UserTable.ItemsSource = services.GetUsuarios();
         }
     }
 }

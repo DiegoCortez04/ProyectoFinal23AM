@@ -15,7 +15,7 @@ namespace ProyectoFinal23AM.Entities
         public string UserName { get; set; }
         public string Password { get; set; }
         //SE DECLARA LA LLAVE FORANEA PROVENIENTE DE LA TABLA ROL Y ENLAZA LA FK
-        [ForeignKey("Roles")] public int FkRol { get; set; }
+        [ForeignKey("Roles")] public int? FkRol { get; set; }
         //SE MANDA A LLAMAR A LA TABLA ROLL PARA ENLAZAR EL FK
         public Rol Roles { get; set; }
     }
