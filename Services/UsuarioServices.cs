@@ -55,5 +55,42 @@ namespace ProyectoFinal23AM.Services
 				throw new Exception("ERROR: " + ex.Message);
 			}
 		}
+		public List<Rol> GetRoles()
+		{
+			try
+			{
+				using (var _context = new ApplicationDbContext())
+				{
+					List<Rol> roles = _context.Roles.ToList();
+					return roles;
+				}
+			}
+			catch (Exception ex)
+			{
+
+				throw new Exception("ERROR: " + ex.Message);
+			}
+		}
+		public void EditUser(Usuario request)
+		{
+			try
+			{
+				using (var _context = new ApplicationDbContext())
+				{
+					Usuario update = _context.Usuarios.Find(request.PkUsuario);
+                    update.Nombre = request.Nombre;
+					update.UserName = request.UserName;
+					update.Password = request.Password;
+
+					_context.Usuarios.Update(update);
+					_context.SaveChanges();
+				}
+			}
+			catch (Exception ex)
+			{
+
+				throw new Exception("ERROR: " + ex.Message);
+			}
+		}
     }
 }

@@ -25,22 +25,55 @@ namespace ProyectoFinal23AM.Vistas
         {
             InitializeComponent();
             GetUsersTable();
+            GetRoles();
         }
         UsuarioServices services = new UsuarioServices();
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Usuario usuario = new Usuario();
-            usuario.Nombre = txtNombre.Text;
-            usuario.UserName = txtUserName.Text;
-            usuario.Password = txtPassword.Text;
-            services.AddUser(usuario);
+            
+            if (txtPkUser.Text != null)
+            {
+                Usuario usuario = new Usuario();
+                usuario.Nombre = txtNombre.Text;
+                usuario.UserName = txtUserName.Text;
+                usuario.Password = txtPassword.Text;
+                services.EditUser(usuario);
+                MessageBox.Show("USUARIO MODIFICADO");
+            }
+            else
+            {
+                Usuario usuario = new Usuario();
+                usuario.Nombre = txtNombre.Text;
+                usuario.UserName = txtUserName.Text;
+                usuario.Password = txtPassword.Text;
+                services.AddUser(usuario);
+                MessageBox.Show("USUARIO REGISTRADO");
+            }
             txtNombre.Clear();
             txtUserName.Clear();
             txtPassword.Clear();
+            GetUsersTable();
+        }
+        public void EditItem(object sender, RoutedEventArgs e)
+        {
+            Usuario usuario = new Usuario();
+
+            usuario = (sender as FrameworkElement).DataContext as Usuario;
+            
+            txtPkUser.Text = usuario.PkUsuario.ToString();
+            txtNombre.Text = usuario.Nombre.ToString();
+            txtUserName.Text = usuario.UserName.ToString();
+            txtPassword.Text = usuario.Password.ToString();
         }
         public void GetUsersTable()
         {
             UserTable.ItemsSource = services.GetUsuarios();
+        }
+        public void GetRoles()
+        {
+            SelectRol.ItemsSource = services.GetRoles();
+            SelectRol.DisplayMemberPath = "Nombre";
+            SelectRol.SelectedValuePath = "PkRol";
         }
     }
 }

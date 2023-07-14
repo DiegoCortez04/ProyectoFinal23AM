@@ -29,7 +29,7 @@ namespace ProyectoFinal23AM.Migrations
                     Nombre = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
-                    FkRol = table.Column<int>(type: "int", nullable: false)
+                    FkRol = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,7 +39,7 @@ namespace ProyectoFinal23AM.Migrations
                         column: x => x.FkRol,
                         principalTable: "Roles",
                         principalColumn: "PkRol",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
