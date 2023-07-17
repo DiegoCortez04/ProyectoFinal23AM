@@ -28,31 +28,43 @@ namespace ProyectoFinal23AM.Vistas
             GetRoles();
         }
         UsuarioServices services = new UsuarioServices();
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        public void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            
-            if (txtPkUser.Text != null)
+            if (txtPkUser.Text == "")
             {
-                Usuario usuario = new Usuario();
-                usuario.Nombre = txtNombre.Text;
-                usuario.UserName = txtUserName.Text;
-                usuario.Password = txtPassword.Text;
-                services.EditUser(usuario);
-                MessageBox.Show("USUARIO MODIFICADO");
+                Usuario usuario = new Usuario()
+                {
+                    Nombre = txtNombre.Text,
+                    UserName = txtUserName.Text,
+                    Password = txtPassword.Text
+                };
+
+                services.AddUser(usuario);
+                MessageBox.Show("REGISTRO EXITOSO");
+                txtNombre.Clear();
+                txtUserName.Clear();
+                txtPassword.Clear();
+                GetUsersTable();
             }
             else
             {
-                Usuario usuario = new Usuario();
-                usuario.Nombre = txtNombre.Text;
-                usuario.UserName = txtUserName.Text;
-                usuario.Password = txtPassword.Text;
-                services.AddUser(usuario);
-                MessageBox.Show("USUARIO REGISTRADO");
+                int userId = Convert.ToInt32(txtPkUser.Text);
+
+                Usuario usuario = new Usuario()
+                {
+                    PkUsuario = userId,
+                    Nombre = txtNombre.Text,
+                    UserName = txtUserName.Text,
+                    Password = txtPassword.Text
+                };
+                MessageBox.Show("REGISTRO ACTUALIZADO");
+                services.UpdateUser(usuario);
+                txtPkUser.Clear();
+                txtNombre.Clear();
+                txtUserName.Clear();
+                txtPassword.Clear();
+                GetUsersTable();
             }
-            txtNombre.Clear();
-            txtUserName.Clear();
-            txtPassword.Clear();
-            GetUsersTable();
         }
         public void EditItem(object sender, RoutedEventArgs e)
         {
@@ -64,6 +76,19 @@ namespace ProyectoFinal23AM.Vistas
             txtNombre.Text = usuario.Nombre.ToString();
             txtUserName.Text = usuario.UserName.ToString();
             txtPassword.Text = usuario.Password.ToString();
+        }
+        public void DeleteItem(object sender, RoutedEventArgs e)
+        {
+            int userId = Convert.ToInt32(txtPkUser.Text);
+            Usuario usuario = new Usuario();
+            usuario.PkUsuario = userId;
+            services.DeleteUser(userId);
+            MessageBox.Show("REGISTRO ELIMINADO");
+            txtPkUser.Clear();
+            txtNombre.Clear();
+            txtUserName.Clear();
+            txtPassword.Clear();
+            GetUsersTable();
         }
         public void GetUsersTable()
         {

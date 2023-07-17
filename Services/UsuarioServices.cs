@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProyectoFinal23AM.Services
 {
@@ -71,26 +72,55 @@ namespace ProyectoFinal23AM.Services
 				throw new Exception("ERROR: " + ex.Message);
 			}
 		}
-		public void EditUser(Usuario request)
-		{
-			try
-			{
-				using (var _context = new ApplicationDbContext())
-				{
-					Usuario update = _context.Usuarios.Find(request.PkUsuario);
+        public void UpdateUser(Usuario request)
+        {
+            try
+            {
+
+                using (var _context = new ApplicationDbContext())
+                {
+                    Usuario update = _context.Usuarios.Find(request.PkUsuario);
+                    Usuario res = new Usuario();
+
+
                     update.Nombre = request.Nombre;
-					update.UserName = request.UserName;
-					update.Password = request.Password;
+                    update.UserName = request.UserName;
+                    update.Password = request.Password;
+                    // FkRol = request.FkRol,
 
-					_context.Usuarios.Update(update);
-					_context.SaveChanges();
-				}
-			}
-			catch (Exception ex)
-			{
+                    _context.Usuarios.Update(update);
+                    _context.SaveChanges();
+                }
 
-				throw new Exception("ERROR: " + ex.Message);
-			}
-		}
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error " + ex.Message);
+            }
+        }
+        public void DeleteUser(int UserId)
+        {
+            try
+            {
+                using (var _context = new ApplicationDbContext())
+                {
+                    Usuario usuario = _context.Usuarios.Find(UserId);
+                    if (usuario != null)
+                    {
+                        _context.Remove(usuario);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        MessageBox.Show("NO HAY REGISTRO");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("ERROR: " + ex.Message);
+            }
+        }
     }
 }
