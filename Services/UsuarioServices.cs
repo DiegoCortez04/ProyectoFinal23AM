@@ -1,4 +1,5 @@
-﻿using ProyectoFinal23AM.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using ProyectoFinal23AM.Context;
 using ProyectoFinal23AM.Entities;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace ProyectoFinal23AM.Services
 						res.Nombre = request.Nombre;
 						res.UserName = request.UserName;
 						res.Password = request.Password;
-						//res.FkRol = request.FkRol;
+						res.FkRol = request.FkRol;
 						_context.Usuarios.Add(res);
 						_context.SaveChanges();
 					}
@@ -43,7 +44,7 @@ namespace ProyectoFinal23AM.Services
 			{
 				using(var _context = new ApplicationDbContext())
 				{
-					List<Usuario> usuarios = _context.Usuarios.ToList();
+					List<Usuario> usuarios = _context.Usuarios.Include(x => x.Roles).ToList();
 					//List<Usuario> usuarios = new List<Usuario>();
 					//usuarios = _context.Usuarios.ToList();
 					return usuarios;
@@ -86,7 +87,7 @@ namespace ProyectoFinal23AM.Services
                     update.Nombre = request.Nombre;
                     update.UserName = request.UserName;
                     update.Password = request.Password;
-                    // FkRol = request.FkRol,
+					update.FkRol = request.FkRol;
 
                     _context.Usuarios.Update(update);
                     _context.SaveChanges();
@@ -122,5 +123,21 @@ namespace ProyectoFinal23AM.Services
                 throw new Exception("ERROR: " + ex.Message);
             }
         }
+		public Usuario Login(string Username, string Password)
+		{
+			try
+			{
+                using (var _context = new ApplicationDbContext())
+                {
+					var usuario = _context.Usuarios.Include(y => y.Roles).FirstOrDefault(x => x.UserName == Username && x.Password == Password);
+					return usuario;
+                }
+            }
+			catch (Exception ex)
+			{
+
+				throw new Exception("ERROR: " + ex.Message);
+			}
+		}
     }
 }

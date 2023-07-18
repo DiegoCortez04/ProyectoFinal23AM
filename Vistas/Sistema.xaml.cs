@@ -36,9 +36,10 @@ namespace ProyectoFinal23AM.Vistas
                 {
                     Nombre = txtNombre.Text,
                     UserName = txtUserName.Text,
-                    Password = txtPassword.Text
+                    Password = txtPassword.Text,
+                    FkRol = int.Parse(SelectRol.SelectedValue.ToString())
                 };
-
+                
                 services.AddUser(usuario);
                 MessageBox.Show("REGISTRO EXITOSO");
                 txtNombre.Clear();
@@ -55,7 +56,8 @@ namespace ProyectoFinal23AM.Vistas
                     PkUsuario = userId,
                     Nombre = txtNombre.Text,
                     UserName = txtUserName.Text,
-                    Password = txtPassword.Text
+                    Password = txtPassword.Text,
+                    FkRol = int.Parse(SelectRol.SelectedValue.ToString())
                 };
                 MessageBox.Show("REGISTRO ACTUALIZADO");
                 services.UpdateUser(usuario);
@@ -63,6 +65,7 @@ namespace ProyectoFinal23AM.Vistas
                 txtNombre.Clear();
                 txtUserName.Clear();
                 txtPassword.Clear();
+                //SelectRol.();
                 GetUsersTable();
             }
         }
@@ -76,6 +79,7 @@ namespace ProyectoFinal23AM.Vistas
             txtNombre.Text = usuario.Nombre.ToString();
             txtUserName.Text = usuario.UserName.ToString();
             txtPassword.Text = usuario.Password.ToString();
+            SelectRol.SelectedValue = usuario.FkRol.ToString(); 
         }
         public void DeleteItem(object sender, RoutedEventArgs e)
         {
